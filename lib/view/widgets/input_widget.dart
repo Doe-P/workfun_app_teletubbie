@@ -10,7 +10,7 @@ inputTextField(String hint, String? errorMessage,
     fillColor: grayColorLight,
     prefixIcon: prefix ? widget : null,
     suffixIcon: subfix ? widget : null,
-    hintStyle: notosansFont(fontSize: 16, fontColor: grayColor),
+    hintStyle: notosansFont(fontSize: 16, fontColor: grayColorDark),
     isDense: true,
     contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
     border: OutlineInputBorder(
