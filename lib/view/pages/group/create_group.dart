@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:workfun_app_teletubbie/constants/app_info.dart';
 import 'package:workfun_app_teletubbie/view/colors/colors.dart';
 import 'package:workfun_app_teletubbie/view/style/text_style.dart';
 import 'package:workfun_app_teletubbie/view/widgets/help_widget.dart';
 import 'package:workfun_app_teletubbie/view/widgets/input_widget.dart';
+import 'package:workfun_app_teletubbie/view_models/group/group_view_model.dart';
 
 class CreateGourpPage extends StatefulWidget {
   const CreateGourpPage({Key? key}) : super(key: key);
@@ -14,6 +16,13 @@ class CreateGourpPage extends StatefulWidget {
 }
 
 class _CreateGourpPageState extends State<CreateGourpPage> {
+  GroupViewModel? viewModel;
+
+  @override
+  void initState() {
+    viewModel = Provider.of<GroupViewModel>(context, listen: false);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +40,9 @@ class _CreateGourpPageState extends State<CreateGourpPage> {
       ),
       ),
       body: SingleChildScrollView(
-        child: Column(
+        child: Consumer(builder: (BuildContext context, GroupViewModel _viewModel, Widget? child){
+          _viewModel.context = context;
+          return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
@@ -54,6 +65,7 @@ class _CreateGourpPageState extends State<CreateGourpPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
+                controller: viewModel?.txtGroupName,
                 decoration: inputTextField("name", null),
               ),
             ),
@@ -64,6 +76,7 @@ class _CreateGourpPageState extends State<CreateGourpPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
+                controller: viewModel?.txtGroupDecs,
                 maxLines: 5,
                 decoration: inputTextField("description", null),
               ),
@@ -72,6 +85,7 @@ class _CreateGourpPageState extends State<CreateGourpPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: InkWell(
+                onTap: viewModel?.validateCreateGroup,
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
@@ -92,7 +106,8 @@ class _CreateGourpPageState extends State<CreateGourpPage> {
               ),
             )
           ],
-        ),
+        );
+        })
       ),
     );
   }

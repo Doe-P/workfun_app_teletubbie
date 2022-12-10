@@ -7,6 +7,6 @@ class BaseApi {
   }
 
   static http.StreamedResponse noStreamResponse() {
-    return http.StreamedResponse(Stream.empty(), 204);
+    return http.StreamedResponse(const Stream.empty(), 204);
   }
 }
