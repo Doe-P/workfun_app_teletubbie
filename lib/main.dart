@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workfun_app_teletubbie/constants/provider.dart';
+import 'package:workfun_app_teletubbie/view/pages/auth/sign_in_page.dart';
 import 'package:workfun_app_teletubbie/view/pages/auth/sign_up_page.dart';
 
 void main() {
