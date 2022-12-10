@@ -73,7 +73,7 @@ Widget materialbutton(double minWid, Function()? function, String txt,
     Color btnColor = yellowColor}) {
   return Material(
     shadowColor: blackColor.withOpacity(0.5),
-    elevation: 4.0,
+    elevation: 0.0,
     color: btnColor,
     borderRadius: BorderRadius.circular(borderRadius),
     child: MaterialButton(
