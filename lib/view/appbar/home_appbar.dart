@@ -22,6 +22,7 @@ class _HomeAppbarState extends State<HomeAppbar> {
     return AppBar(
       backgroundColor: yellowColor,
       elevation: 0,
+      automaticallyImplyLeading: false,
       actions: [
         InkWell(
           onTap: () {},
@@ -44,7 +45,8 @@ class _HomeAppbarState extends State<HomeAppbar> {
                       color: redColorDark,
                       shape: BoxShape.circle,
                     ),
-                    child: Text("10", style: robotoFont(fontSize: 10, fontColor: whiteColor)),
+                    child: Text("10",
+                        style: robotoFont(fontSize: 10, fontColor: whiteColor)),
                   ),
                 ),
               ],

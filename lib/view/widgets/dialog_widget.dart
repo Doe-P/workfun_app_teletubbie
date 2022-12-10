@@ -35,8 +35,8 @@ class Dialogs {
                                 color: Color(0xff2ed573),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(80))),
-                            child: const Icon(
-                              Icons.close,
+                            child: Icon(
+                              Icons.done,
                               size: 36,
                               color: whiteColor,
                             ),

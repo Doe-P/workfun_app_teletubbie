@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:workfun_app_teletubbie/apis/auth/auth_api.dart';
 import 'package:workfun_app_teletubbie/view/pages/auth/sign_up_page.dart';
+import 'package:workfun_app_teletubbie/view/pages/home_page.dart';
 import 'package:workfun_app_teletubbie/view/widgets/dialog_widget.dart';
 
 import '../../services/share_preferences.dart';
@@ -54,7 +55,6 @@ class SignInViewModel extends ChangeNotifier {
   }
 
   void validateSignIn() async {
-    print("working");
     await focusDisable(_currentContext);
     checkEmailIsEmpty(email.text);
     checkPasswordIsEmpty(password.text);
@@ -67,21 +67,15 @@ class SignInViewModel extends ChangeNotifier {
   void _doSignIn() async {
     final data = {'credentials': email.text, 'password': password.text};
     final response = await AuthApi.signIn(data);
-    print("==========>$data");
-    print("data=====>${response.body}");
-    try {
+    {
       if (response.statusCode == 200) {
         String accessToken =
             jsonDecode(response.body)['data']['credentials']['access_token'];
 
         if (accessToken.isNotEmpty) {
-          print("go to homepage");
-          //go to home page
           Navigator.of(_currentContext)
-              .push(MaterialPageRoute(builder: (context) => SignUpPage()));
+              .push(MaterialPageRoute(builder: (context) => HomePage()));
 
-          print("data===>$data");
-          print("access_token===>$accessToken");
           await SharePreferences.setAccessToken(accessToken);
           isRememberMe
               ? await SharePreferences.setRemember(email.text)
@@ -98,8 +92,6 @@ class SignInViewModel extends ChangeNotifier {
         Dialogs.errorDialog(
             _currentContext, jsonDecode(response.body)['message']);
       }
-    } catch (e) {
-      print("error==>$e");
     }
   }
 }
