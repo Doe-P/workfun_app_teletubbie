@@ -8,3 +8,4 @@ const Color grayColorLight = Color(0xffF8F8F8);
 const Color redColor = Color(0xffff3838);
 const Color greenColor = Color(0xff2ecc71);
 const Color yellowColor = Color(0xffFFD60A);
+const Color yellowColorLight = Color(0xffF8EF8B);
