@@ -1,12 +1,14 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:workfun_app_teletubbie/view/colors/colors.dart';
 import 'package:workfun_app_teletubbie/view/pages/home_page.dart';
 import 'package:workfun_app_teletubbie/view/style/text_style.dart';
 import 'package:workfun_app_teletubbie/view/transitions/transition.dart';
 import 'package:workfun_app_teletubbie/view/widgets/help_widget.dart';
 import 'package:workfun_app_teletubbie/view/widgets/input_widget.dart';
+import 'package:workfun_app_teletubbie/view_models/auth/sign_in_view_model.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -16,12 +18,19 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  SignInViewModel? signInViewModel;
   late bool showPassword = false;
 
   onShowPassword() {
     setState(() {
       showPassword = !showPassword;
     });
+  }
+
+  @override
+  void initState() {
+    signInViewModel = Provider.of<SignInViewModel>(context, listen: false);
+    super.initState();
   }
 
   @override
@@ -89,5 +98,9 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
     );
+  }
+
+  doSignIn() {
+    signInViewModel?.validateSignIn();
   }
 }

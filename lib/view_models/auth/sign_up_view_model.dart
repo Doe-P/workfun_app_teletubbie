@@ -1,6 +1,8 @@
 // ignore_for_file: unused_field
 
 import 'package:flutter/material.dart';
+import 'package:workfun_app_teletubbie/apis/auth/auth_api.dart';
+import 'package:workfun_app_teletubbie/view/pages/auth/sign_in_page.dart';
 import 'package:workfun_app_teletubbie/view/widgets/help_widget.dart';
 
 class SignUpViewModel extends ChangeNotifier {
@@ -98,8 +100,8 @@ class SignUpViewModel extends ChangeNotifier {
   void checkPasswordIsEmpty(String pass) {
     if (pass.isEmpty) {
       passwordIsError = "* ກະລຸນາລະບຸລະຫັດຜ່ານ";
-    } else if (pass.length < 6) {
-      passwordIsError = "* ລະຫັດຜ່ານຕ້ອງໃສ່ຢ່າງໜ້ອຍ 6 ຕົວ";
+    } else if (pass.length < 8) {
+      passwordIsError = "* ລະຫັດຜ່ານຕ້ອງໃສ່ຢ່າງໜ້ອຍ 8 ຕົວ";
     } else {
       passwordIsError = null;
     }
@@ -109,9 +111,13 @@ class SignUpViewModel extends ChangeNotifier {
   void checkConfPasswordIsEmpty(String confPass) {
     if (confPass.isEmpty) {
       confirmPasswordIsError = "* ກະລຸນາລະບຸລະຫັດຜ່ານ";
-    } else if (!identical(confPass, userPassword.text)) {
+    } else if (userPassword.text != confirmPassword.text) {
       confirmPasswordIsError = "* ລະຫັດຜ່ານບໍ່ກົງກັນ";
-    } else {
+    }
+    // else if (identical(confPass, userPassword.text)) {
+    //   confirmPasswordIsError = "* ລະຫັດຜ່ານບໍ່ກົງກັນ";
+    // }
+    else {
       confirmPasswordIsError = null;
     }
     notifyListeners();
@@ -130,7 +136,7 @@ class SignUpViewModel extends ChangeNotifier {
     if (userName.text.isNotEmpty &&
         userSurname.text.isNotEmpty &&
         userEmail.text.isNotEmpty &&
-        positionId != null &&
+        // positionId != null &&
         userPhone.text.isNotEmpty &&
         userPassword.text.isNotEmpty &&
         confirmPassword.text.isNotEmpty) {
@@ -140,5 +146,27 @@ class SignUpViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _doSignUp() {}
+  void _doSignUp() async {
+    final data = {
+      'name': userName.text.toString(),
+      'surname': userSurname.text.toString(),
+      'email': userEmail.text.toString(),
+      'tel': userPhone.text.toString(),
+      'password': userPassword.text.toString(),
+      'password_confirmation': confirmPassword.text.toString()
+    };
+
+    print("data=>$data");
+    final response = await AuthApi.signUp(data);
+
+    if (response.statusCode == 200) {
+      print("register!!");
+      Navigator.of(_currentContext)
+          .push(MaterialPageRoute(builder: (context) => SignInPage()));
+    }
+
+    print("status code===>${response.statusCode}=====${response.reasonPhrase}");
+
+    notifyListeners();
+  }
 }

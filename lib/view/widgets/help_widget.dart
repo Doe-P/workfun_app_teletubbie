@@ -25,7 +25,7 @@ labelText(String text, {Color color = blackColor}) {
     padding: const EdgeInsets.fromLTRB(5, 15, 10, 5),
     child: Text(
       text,
-      style: notosansFont(fontColor: blackColor, fontWieght: FontWeight.w600),
+      style: notosansFont(fontColor: color, fontWieght: FontWeight.w600),
     ),
   );
 }
@@ -85,6 +85,31 @@ Widget materialbutton(double minWid, Function()? function, String txt,
         textAlign: TextAlign.center,
         style: styleOption(fontSize: 18, color: txtColor),
       ),
+    ),
+  );
+}
+
+
+Widget outlineButton(
+  Function()? function,
+  Text text,
+  Color bgColor,
+  Color borderColor,
+  double elevation,
+  double radius,
+  EdgeInsetsGeometry padding,
+) {
+  return ElevatedButton(
+    onPressed: function,
+    child: text,
+    style: ElevatedButton.styleFrom(
+      primary: bgColor,
+      elevation: elevation,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radius),
+          side: BorderSide(color: borderColor) // <-- Radius
+          ),
+      padding: padding,
     ),
   );
 }
