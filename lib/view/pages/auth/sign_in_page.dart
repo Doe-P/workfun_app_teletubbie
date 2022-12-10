@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:workfun_app_teletubbie/view/colors/colors.dart';
+import 'package:workfun_app_teletubbie/view/pages/home_page.dart';
 import 'package:workfun_app_teletubbie/view/style/text_style.dart';
+import 'package:workfun_app_teletubbie/view/transitions/transition.dart';
 import 'package:workfun_app_teletubbie/view/widgets/help_widget.dart';
 import 'package:workfun_app_teletubbie/view/widgets/input_widget.dart';
 
@@ -54,33 +56,35 @@ class _SignInPageState extends State<SignInPage> {
             ),
             labelText("ລະຫັດຜ່ານ"),
             Flex(
-                    direction: Axis.horizontal,
-                    children: [
-                      Checkbox(
-                        checkColor: Colors.white,
-                        activeColor: yellowColor,
-                        value: true,
-                        //value: viewModel!.rememberMe,
-                        onChanged: (bool? value) {
-                          setState(() {
-                           // viewModel!.isRemember(value!);
-                          });
-                        },
-                      ),
-                      Text("ຈື່ບັນຊີຂ້ອຍ", style: styleOption(fontSize: 18)),
-                    ],
-                  ),
-            // TextField(
-            //   style: notosansFont(),
-            //   obscureText: !showPassword,
-            //   decoration: inputPassword(
-            //       "ລະຫັດຜ່ານ", null, onShowPassword, showPassword),
-            // ),
+              direction: Axis.horizontal,
+              children: [
+                Checkbox(
+                  checkColor: Colors.white,
+                  activeColor: yellowColor,
+                  value: true,
+                  //value: viewModel!.rememberMe,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      // viewModel!.isRemember(value!);
+                    });
+                  },
+                ),
+                Text("ຈື່ບັນຊີຂ້ອຍ", style: styleOption(fontSize: 18)),
+              ],
+            ),
             heightBox(35),
             SizedBox(
-                height: 45,
-                width: double.infinity,
-                child: materialbutton(50, null, "ເຂົ້າສູ່ລະບົບ"))
+              height: 45,
+              width: double.infinity,
+              child: materialbutton(
+                50,
+                () {
+                  Navigator.of(context).pushReplacement(
+                      SlideBottomRoute(page: const HomePage()));
+                },
+                "ເຂົ້າສູ່ລະບົບ",
+              ),
+            )
           ],
         ),
       ),

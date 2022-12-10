@@ -204,7 +204,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   fontWieght: FontWeight.w400),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 "ເຂົ້າສູ່ລະບົບ",
                 style: notosansFont(

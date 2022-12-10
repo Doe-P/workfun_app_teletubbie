@@ -9,3 +9,5 @@ const Color redColor = Color(0xffff3838);
 const Color greenColor = Color(0xff2ecc71);
 const Color yellowColor = Color(0xffFFD60A);
 const Color yellowColorLight = Color(0xffF8EF8B);
+const Color redColorDark = Color(0xffFF5B5B);
+const Color cardColor = Color(0xffFEFBEC);
