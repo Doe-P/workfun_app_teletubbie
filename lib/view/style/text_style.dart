@@ -28,3 +28,14 @@ TextStyle robotoFont(
       fontWeight: fontWieght,
       color: fontColor,
     );
+
+TextStyle styleOption(
+        {double fontSize = 16,
+        Color color = blackColor,
+        FontWeight fontWeight = FontWeight.normal,
+        String fontFamily=notosans}) =>
+    TextStyle(
+        fontSize: fontSize,
+        color: color,
+        fontFamily: fontFamily,
+        fontWeight: fontWeight);
