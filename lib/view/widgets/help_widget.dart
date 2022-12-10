@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../colors/colors.dart';
 import '../style/text_style.dart';
+
 Widget heightBox(double height) {
   return SizedBox(
     height: height,
@@ -14,6 +15,20 @@ Widget widthBox(double width) {
   );
 }
 
+Future<Widget>? focusDisable(BuildContext context) {
+  FocusScope.of(context).requestFocus(FocusNode());
+  return null;
+}
+
+labelText(String text, {Color color = blackColor}) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(5, 15, 10, 5),
+    child: Text(
+      text,
+      style: notosansFont(fontColor: blackColor, fontWieght: FontWeight.w600),
+    ),
+  );
+}
 
 Widget title(
   String txt1,
@@ -51,7 +66,6 @@ Widget title(
     ],
   );
 }
-
 
 Widget materialbutton(double minWid, Function()? function, String txt,
     {double borderRadius = 20,

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:workfun_app_teletubbie/view/pages/auth/sign_in_page.dart';
+import 'package:provider/provider.dart';
+import 'package:workfun_app_teletubbie/constants/provider.dart';
+import 'package:workfun_app_teletubbie/view/pages/auth/sign_up_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: providers,
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +19,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'WorkFun',
       debugShowCheckedModeBanner: false,
-      home: SignInPage(),
+      home: SignUpPage(),
     );
   }
 }
