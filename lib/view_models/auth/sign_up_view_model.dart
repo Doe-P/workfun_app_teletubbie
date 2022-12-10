@@ -1,8 +1,12 @@
 // ignore_for_file: unused_field
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:workfun_app_teletubbie/apis/auth/auth_api.dart';
 import 'package:workfun_app_teletubbie/view/pages/auth/sign_in_page.dart';
+import 'package:workfun_app_teletubbie/view/pages/home_page.dart';
+import 'package:workfun_app_teletubbie/view/widgets/dialog_widget.dart';
 import 'package:workfun_app_teletubbie/view/widgets/help_widget.dart';
 
 class SignUpViewModel extends ChangeNotifier {
@@ -136,7 +140,7 @@ class SignUpViewModel extends ChangeNotifier {
     if (userName.text.isNotEmpty &&
         userSurname.text.isNotEmpty &&
         userEmail.text.isNotEmpty &&
-        // positionId != null &&
+        positionId != null &&
         userPhone.text.isNotEmpty &&
         userPassword.text.isNotEmpty &&
         confirmPassword.text.isNotEmpty) {
@@ -152,6 +156,7 @@ class SignUpViewModel extends ChangeNotifier {
       'surname': userSurname.text.toString(),
       'email': userEmail.text.toString(),
       'tel': userPhone.text.toString(),
+      'position': positionId.toString(),
       'password': userPassword.text.toString(),
       'password_confirmation': confirmPassword.text.toString()
     };
@@ -160,12 +165,17 @@ class SignUpViewModel extends ChangeNotifier {
     final response = await AuthApi.signUp(data);
 
     if (response.statusCode == 200) {
-      print("register!!");
+      final result =
+          await Dialogs.successDialog(_currentContext, "ລົງທະບຽນສຳເລັດ");
+      if (result) {
+        Navigator.pop(_currentContext);
+      }
       Navigator.of(_currentContext)
-          .push(MaterialPageRoute(builder: (context) => SignInPage()));
+          .push(MaterialPageRoute(builder: (context) => HomePage()));
+    } else {
+      Dialogs.errorDialog(
+          _currentContext, jsonDecode(response.body)['message']);
     }
-
-    print("status code===>${response.statusCode}=====${response.reasonPhrase}");
 
     notifyListeners();
   }

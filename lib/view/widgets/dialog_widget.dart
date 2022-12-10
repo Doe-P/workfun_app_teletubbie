@@ -34,7 +34,7 @@ class Dialogs {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(80))),
                             child: Icon(
-                              Icons.close,
+                              Icons.done,
                               size: 36,
                               color: whiteColor,
                             ),

@@ -55,18 +55,6 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Container(
-        //   width: double.infinity,
-        //   height: 150,
-        //   color: yellowColor,
-        //   alignment: Alignment.center,
-        //   child: Text(
-        //     "LOGO",
-        //     style: robotoFont(
-        //       fontWieght: FontWeight.bold,
-        //     ),
-        //   ),
-        // ),
         Center(
           child: Image.asset(
             "assets/app_logo.png",
@@ -225,7 +213,7 @@ class _SignUpPageState extends State<SignUpPage> {
         heightBox(20),
         InkWell(
           onTap: () {
-            print("register working");
+           
             appViewModel?.validateSignUp();
           },
           child: Container(
