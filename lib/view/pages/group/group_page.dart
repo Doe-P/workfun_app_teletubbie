@@ -223,6 +223,7 @@ class _GroupPageState extends State<GroupPage> {
                           Container(
                             width: 45,
                             height: 45,
+                            margin: EdgeInsets.only(bottom: 25),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: whiteColor,
@@ -239,20 +240,33 @@ class _GroupPageState extends State<GroupPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "${item.user?.name} ${item.user?.surname}",
-                                  style: notosansFont(
-                                    fontWieght: FontWeight.w600,
-                                    fontSize: 14,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                Row(
+                                  children: [
+                                    Text(
+                                      "${item.user?.name} ${item.user?.surname}",
+                                      style: notosansFont(
+                                        fontWieght: FontWeight.w600,
+                                        fontSize: 14,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    widthBox(8),
+                                    Text(
+                                      "${item.type}",
+                                      style: robotoFont(
+                                        fontSize: 14,
+                                        fontColor: item.type == 'admin'? yellowColor : grayColor,
+                                        fontWieght: FontWeight.w600,
+                                      ),
+                                    )
+                                  ],
                                 ),
                                 Text(
                                   "${item.user?.tel}",
                                   style: notosansFont(
                                       fontWieght: FontWeight.w400,
-                                      fontSize: 12,
+                                      fontSize: 14,
                                       fontColor: grayColorDark),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

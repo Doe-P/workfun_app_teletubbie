@@ -180,7 +180,10 @@ class _ChallageListItemsState extends State<ChallageListItems> {
                         InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ChallengeDetailPage()));
+                                builder: (context) => ChallengeDetailPage(
+                                      status: "todo",
+                                      challengeId: "1",
+                                    )));
                           },
                           child: Container(
                             width: double.infinity,

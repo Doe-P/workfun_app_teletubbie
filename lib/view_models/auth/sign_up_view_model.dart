@@ -1,9 +1,10 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, use_build_context_synchronously, no_leading_underscores_for_local_identifiers, unused_local_variable
 
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:workfun_app_teletubbie/apis/auth/auth_api.dart';
+import 'package:workfun_app_teletubbie/services/share_preferences.dart';
 import 'package:workfun_app_teletubbie/view/pages/auth/sign_in_page.dart';
 import 'package:workfun_app_teletubbie/view/pages/home_page.dart';
 import 'package:workfun_app_teletubbie/view/widgets/dialog_widget.dart';
@@ -159,11 +160,16 @@ class SignUpViewModel extends ChangeNotifier {
       'password': userPassword.text.toString(),
       'password_confirmation': confirmPassword.text.toString()
     };
-
-   
     final response = await AuthApi.signUp(data);
 
     if (response.statusCode == 200) {
+      String _token =
+          jsonDecode(response.body)['data']['credentials']['access_token'];
+
+      await SharePreferences.setAccessToken(_token);
+      await SharePreferences.setUserHasGroup(false);
+      await SharePreferences.setUserPermisstion(null);
+
       final result =
           await Dialogs.successDialog(_currentContext, "ລົງທະບຽນສຳເລັດ");
       if (result) {

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:workfun_app_teletubbie/services/share_preferences.dart';
 import 'package:workfun_app_teletubbie/view/appbar/home_appbar.dart';
 import 'package:workfun_app_teletubbie/view/colors/colors.dart';
 import 'package:workfun_app_teletubbie/view/pages/challange/challange_list/challange_list_page.dart';
@@ -18,23 +19,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  final List<BottomNavigationBarItem> menusBar = [
-    BottomNavigationBarItem(icon: Icon(Icons.format_list_bulleted), label: "ລາຍການ"),
-    BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: "ທ້າທາຍ"),
-    BottomNavigationBarItem(icon: Icon(Icons.group), label: "ກຸ່ມ"),
-    BottomNavigationBarItem(icon: Icon(Icons.person), label: "ໂປຣຟາຍ"),
-  ];
-
-  List<Widget> pageList = [
-    ChallangeListPage(),
-    CreateChallangePage(),
-    GroupPage(),
-    ProfilePage(),
-  ];
+  String userType = "";
+  List<BottomNavigationBarItem> menusBar = [];
+  List<Widget> pageList = [];
 
   @override
-  void initState() {
-    
+  void initState(){
+    checkUserType();
     super.initState();
   }
   @override
@@ -48,24 +39,58 @@ class _HomePageState extends State<HomePage> {
         child: pageList.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-          items: menusBar.map((e) => e).toList(),
-          backgroundColor: whiteColor,
-          elevation: 0,
-          selectedLabelStyle: notosansFont(fontSize: 14, fontColor: yellowColor, fontWieght: FontWeight.w400),
-          unselectedLabelStyle: notosansFont(fontColor: grayColorDark, fontSize: 12),
-          selectedItemColor: yellowColor,
-          unselectedItemColor: grayColorDark,
-          showUnselectedLabels: true,
-          currentIndex: _selectedIndex,
-          type: BottomNavigationBarType.fixed,
-          onTap: _onSelectTab,
-        ),
+        items: menusBar.map((e) => e).toList(),
+        backgroundColor: whiteColor,
+        elevation: 0,
+        selectedLabelStyle: notosansFont(
+            fontSize: 14, fontColor: yellowColor, fontWieght: FontWeight.w400),
+        unselectedLabelStyle:
+            notosansFont(fontColor: grayColorDark, fontSize: 12),
+        selectedItemColor: yellowColor,
+        unselectedItemColor: grayColorDark,
+        showUnselectedLabels: true,
+        currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        onTap: _onSelectTab,
+      ),
     );
   }
-  
+
   _onSelectTab(index) {
-   setState(() {
-     _selectedIndex =index;
-   });
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  Future<void> checkUserType() async {
+    userType = await SharePreferences.getUserPermission();
+    setState(() {
+      if (userType == "admin") {
+      menusBar.addAll([
+        BottomNavigationBarItem(icon: Icon(Icons.format_list_bulleted), label: "ລາຍການ"),
+        BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: "ທ້າທາຍ"),
+        BottomNavigationBarItem(icon: Icon(Icons.group), label: "ກຸ່ມ"),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: "ໂປຣຟາຍ"),
+      ]);
+
+      pageList.addAll([
+        ChallangeListPage(),
+        CreateChallangePage(),
+        GroupPage(),
+        ProfilePage(),
+      ]);
+    } else {
+     menusBar.addAll([
+        BottomNavigationBarItem(icon: Icon(Icons.format_list_bulleted), label: "ລາຍການ"),
+        BottomNavigationBarItem(icon: Icon(Icons.group), label: "ກຸ່ມ"),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: "ໂປຣຟາຍ"),
+      ]);
+      pageList.addAll([
+        ChallangeListPage(),
+        GroupPage(),
+        ProfilePage(),
+      ]);
+    }
+    });
   }
 }
