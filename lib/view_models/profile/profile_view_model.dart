@@ -14,6 +14,7 @@ class ProfileViewModel extends ChangeNotifier {
   ProfileModel? profileModel;
   bool isLoading = false;
 
+  //get user profile data
   Future<void> getProfile() async {
     profileModel = null;
     isLoading = true;
@@ -27,7 +28,8 @@ class ProfileViewModel extends ChangeNotifier {
       }
       isLoading = false;
       notifyListeners();
-    } catch (_) {
+    } catch (e) {
+      print("error===>$e");
     }
   }
 }

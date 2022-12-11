@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget selectWidget() {
     if (profileViewModel!.isLoading) {
       return Center(
-        child: CircularProgressIndicator(),
+        child: pageOnLoading(),
       );
     } else if (!profileViewModel!.isLoading &&
         profileViewModel!.profileModel != null) {

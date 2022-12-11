@@ -5,6 +5,7 @@ import 'package:workfun_app_teletubbie/apis/help_api.dart';
 import '../base_api.dart';
 
 class AuthApi {
+  //TODO: Sign In
   static Future<http.Response> signIn(final data) async {
     Uri url = Uri.parse('$endPoint/login');
     http.Response _response;
@@ -17,11 +18,12 @@ class AuthApi {
     return Future.value(_response);
   }
 
+  //TODO: Sign Up
   static Future<http.Response> signUp(final data) async {
     Uri url = Uri.parse('$endPoint/register');
-    
+
     final header = await headers();
-    
+
     http.Response _response;
     try {
       _response = await http

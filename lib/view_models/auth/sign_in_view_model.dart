@@ -35,6 +35,7 @@ class SignInViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+//check if email is empty
   void checkEmailIsEmpty(String email) {
     if (email.isEmpty) {
       emailIsError = "* ກະລຸນາລະບຸອີເມວ";
@@ -44,6 +45,7 @@ class SignInViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+//check if password is empty
   void checkPasswordIsEmpty(String password) {
     if (password.isEmpty) {
       passwordIsError = "* ກະລຸນາລະບຸລະຫັດຜ່ານ";
@@ -53,6 +55,7 @@ class SignInViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+// validate before sign in
   void validateSignIn() async {
     await focusDisable(_currentContext);
     checkEmailIsEmpty(email.text);
@@ -63,6 +66,7 @@ class SignInViewModel extends ChangeNotifier {
     }
   }
 
+//Sign In
   void _doSignIn() async {
     final data = {'credentials': email.text, 'password': password.text};
     final response = await AuthApi.signIn(data);
