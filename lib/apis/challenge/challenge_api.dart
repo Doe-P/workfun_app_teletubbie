@@ -57,23 +57,17 @@ class ChallangeApi {
     return Future.value(response);
   }
 
-  static Future<http.Response> updateChellengeStatusApi(String challengeId,
-      {bool? hasBody = false, String? data}) async {
+  static Future<http.Response> updateChellengeStatusApi(
+      String challengeId, final data) async {
     final String url = "$endPoint/update/challenge/$challengeId";
 
     print("url===>$url");
     final header = await headers();
     http.Response response;
     try {
-      if (hasBody!) {
-        response = await http
-            .put(Uri.parse(url), body: data, headers: header)
-            .timeout(const Duration(seconds: 120));
-      } else {
-        response = await http
-            .put(Uri.parse(url), headers: header)
-            .timeout(const Duration(seconds: 120));
-      }
+      response = await http
+          .put(Uri.parse(url), body: data, headers: header)
+          .timeout(const Duration(seconds: 120));
     } catch (_) {
       response = BaseApi.noResponse();
     }

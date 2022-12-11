@@ -165,17 +165,11 @@ class ChallengeViewModel extends ChangeNotifier {
   }
 
   //update challenge status
-  Future<void> updateChallengeStatus(String challengeId,
-      {bool? hasBody}) async {
+  Future<void> updateChallengeStatus(String challengeId) async {
     final data = {'score': scoreId};
-    var response;
     try {
-      if (hasBody!) {
-        response = await ChallangeApi.updateChellengeStatusApi(challengeId,
-            hasBody: true, data: data.toString());
-      } else {
-        response = await ChallangeApi.updateChellengeStatusApi(challengeId);
-      }
+      final response =
+          await ChallangeApi.updateChellengeTodoToDoingApi(challengeId);
 
       if (response.statusCode == 200) {
         print("score data ====>$data");
