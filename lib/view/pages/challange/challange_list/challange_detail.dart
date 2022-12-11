@@ -9,10 +9,13 @@ import '../../../widgets/help_widget.dart';
 import '../../../widgets/input_widget.dart';
 
 class ChallengeDetailPage extends StatefulWidget {
-  const ChallengeDetailPage({super.key, this.challengeId, this.status});
+  const ChallengeDetailPage(
+      {super.key, this.challengeId, this.status, this.asignnee, this.cId});
 
   final String? challengeId;
   final String? status;
+  final String? asignnee;
+  final String? cId;
 
   @override
   State<ChallengeDetailPage> createState() => _ChallengeDetailPageState();
@@ -24,7 +27,7 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
   void initState() {
     challengeViewModel =
         Provider.of<ChallengeViewModel>(context, listen: false);
-    challengeViewModel?.getChellengeDetail("1");
+    challengeViewModel?.getChellengeDetail(widget.challengeId.toString());
     super.initState();
   }
 
@@ -118,6 +121,17 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                           fontWieght: FontWeight.w400,
                           fontSize: 18),
                     ),
+                    labelText("ມອບໝາຍໃຫ້"),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        widget.asignnee.toString(),
+                        style: styleOption(
+                          fontSize: 25,
+                          color: yellowColor,
+                        ),
+                      ),
+                    ),
                     labelText("ປະເພດ"),
                     Padding(
                       padding: const EdgeInsets.only(left: 5),
@@ -168,16 +182,29 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                         ),
                       ),
                     heightBox(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        materialbutton(MediaQuery.of(context).size.width / 3,
-                            () {
-                          challengeViewModel!.updateChallengeStatus("1");
-                        }, widget.status == "todo" ? "Doing" : "Done",
-                            btnColor: yellowColor),
-                      ],
-                    )
+                    if (widget.status != "done")
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          materialbutton(MediaQuery.of(context).size.width / 3,
+                              () {
+                            setState(() {
+                              if (widget.status == "todo") {
+                                print("========do ing=======");
+                                challengeViewModel!
+                                    .updateChallengeStatusTodoToDoing(
+                                        widget.cId.toString());
+                              } else if (widget.status == "doing") {
+                                print("========done=======");
+                                challengeViewModel!
+                                    .updateChallengeStatusDoingToDone(
+                                        widget.cId.toString());
+                              }
+                            });
+                          }, widget.status == "todo" ? "Doing" : "Done",
+                              btnColor: yellowColor),
+                        ],
+                      )
                   ],
                 ),
               ),

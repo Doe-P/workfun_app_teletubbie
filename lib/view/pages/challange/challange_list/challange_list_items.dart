@@ -19,6 +19,8 @@ class ChallageListItems extends StatefulWidget {
 
 class _ChallageListItemsState extends State<ChallageListItems> {
   ChallengeViewModel? challengeViewModel;
+  String? asignnee;
+  String? cId;
 
   @override
   void initState() {
@@ -61,8 +63,18 @@ class _ChallageListItemsState extends State<ChallageListItems> {
         itemCount: challengeViewModel?.challengeListModel.length,
         itemBuilder: (BuildContext context, index) {
           final item = challengeViewModel?.challengeListModel[index];
+          asignnee = item!.user!.name.toString();
+          cId = item.id.toString();
           return InkWell(
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChallengeDetailPage())),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChallengeDetailPage(
+                          challengeId: item.challengeId.toString(),
+                          status: widget.status,
+                          asignnee: asignnee,
+                          cId: cId,
+                        ))),
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.fromLTRB(15, 27, 15, 27),
@@ -118,8 +130,8 @@ class _ChallageListItemsState extends State<ChallageListItems> {
                               ),
                               child: Text(
                                 "${item?.challenge?.type}",
-                                style:
-                                    robotoFont(fontSize: 12, fontColor: whiteColor),
+                                style: robotoFont(
+                                    fontSize: 12, fontColor: whiteColor),
                               ),
                             ),
                           ],

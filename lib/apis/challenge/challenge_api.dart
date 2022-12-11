@@ -57,7 +57,7 @@ class ChallangeApi {
     return Future.value(response);
   }
 
-  static Future<http.Response> updateChellengeStatusApi(
+  static Future<http.Response> updateChellengeDoingToDoneApi(
       String challengeId, final data) async {
     final String url = "$endPoint/update/challenge/$challengeId";
 

@@ -165,11 +165,36 @@ class ChallengeViewModel extends ChangeNotifier {
   }
 
   //update challenge status
-  Future<void> updateChallengeStatus(String challengeId) async {
+  Future<void> updateChallengeStatusTodoToDoing(String challengeId) async {
     final data = {'score': scoreId};
     try {
       final response =
           await ChallangeApi.updateChellengeTodoToDoingApi(challengeId);
+
+      if (response.statusCode == 200) {
+        print("score data22 ====>$data");
+
+        final result =
+            await Dialogs.successDialog(_currentContext, "ອັບເດດສຳເລັດ");
+        if (result) {
+          Navigator.pop(_currentContext);
+        }
+      } else {
+        print("============");
+        print(response.statusCode);
+        print(jsonDecode(response.body)['message']);
+      }
+    } catch (_) {
+      print("error $_");
+    }
+    notifyListeners();
+  }
+
+  Future<void> updateChallengeStatusDoingToDone(String challengeId) async {
+    final data = {'score': scoreId.toString()};
+    try {
+      final response =
+          await ChallangeApi.updateChellengeDoingToDoneApi(challengeId, data);
 
       if (response.statusCode == 200) {
         print("score data ====>$data");
@@ -179,6 +204,10 @@ class ChallengeViewModel extends ChangeNotifier {
         if (result) {
           Navigator.pop(_currentContext);
         }
+      } else {
+        print("============");
+        print(response.statusCode);
+        print(jsonDecode(response.body)['message']);
       }
     } catch (_) {
       print("error $_");
