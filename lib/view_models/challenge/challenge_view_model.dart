@@ -22,6 +22,7 @@ class ChallengeViewModel extends ChangeNotifier {
   List<String> challengeType = ['task', 'activity'];
   dynamic challengeTypeId;
   List<int> point = [100, 75, 50, 25];
+  List<int> score = [1, 2, 3, 4, 5];
 
   int pointSelected = 0;
 
