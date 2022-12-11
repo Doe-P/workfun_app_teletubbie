@@ -1,10 +1,10 @@
-
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:workfun_app_teletubbie/apis/base_api.dart';
 import 'package:workfun_app_teletubbie/apis/help_api.dart';
-class ChallangeApi{
+
+class ChallangeApi {
   // create a new challange
   static Future<http.Response> createChallange(final body) async {
     final String url = "$endPoint/challenge";
@@ -39,14 +39,49 @@ class ChallangeApi{
     return Future.value(response);
   }
 
-  static Future<http.Response> updateChellengeStatusApi(
+  static Future<http.Response> updateChellengeTodoToDoingApi(
       String challengeId) async {
-    final String url = "$endPoint/challenge/$challengeId";
+    final String url = "$endPoint/update/challenge/$challengeId";
+
+    print("url===>$url");
     final header = await headers();
     http.Response response;
     try {
       response = await http
           .put(Uri.parse(url), headers: header)
+          .timeout(const Duration(seconds: 120));
+    } catch (_) {
+      response = BaseApi.noResponse();
+    }
+
+    return Future.value(response);
+  }
+
+  static Future<http.Response> updateChellengeStatusApi(
+      String challengeId, final data) async {
+    final String url = "$endPoint/update/challenge/$challengeId";
+
+    print("url===>$url");
+    final header = await headers();
+    http.Response response;
+    try {
+      response = await http
+          .put(Uri.parse(url), body: data, headers: header)
+          .timeout(const Duration(seconds: 120));
+    } catch (_) {
+      response = BaseApi.noResponse();
+    }
+
+    return Future.value(response);
+  }
+
+  static Future<http.Response> getChellengeDetailApi(String challengeId) async {
+    final String url = "$endPoint/challenge/$challengeId";
+    final header = await headers();
+    http.Response response;
+    try {
+      response = await http
+          .get(Uri.parse(url), headers: header)
           .timeout(const Duration(seconds: 120));
     } catch (_) {
       response = BaseApi.noResponse();

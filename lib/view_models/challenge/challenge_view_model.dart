@@ -23,9 +23,13 @@ class ChallengeViewModel extends ChangeNotifier {
   List<String> challengeType = ['task', 'activity'];
   dynamic challengeTypeId;
   List<int> point = [100, 75, 50, 25];
+
+  // for score dropdown
   List<int> score = [1, 2, 3, 4, 5];
+  dynamic scoreId;
 
   List<ChallengeListModel> challengeListModel = [];
+  Challenge? challengeDetail;
 
   int pointSelected = 0;
 
@@ -49,7 +53,7 @@ class ChallengeViewModel extends ChangeNotifier {
 
   Future<void> checkUserHasGroup() async {
     isLoading = true;
-    userHasGroup= await SharePreferences.getUserHasGroup();
+    userHasGroup = await SharePreferences.getUserHasGroup();
 
     if (userHasGroup) {
       await fetchGroupInformation();
@@ -138,20 +142,38 @@ class ChallengeViewModel extends ChangeNotifier {
           challengeListModel.add(ChallengeListModel.fromJson(item));
         }
       }
-    } catch (_) {
-   
-    }
+    } catch (_) {}
+
     isLoading = false;
     notifyListeners();
   }
 
+  //get challenge detail by id
+  Future<void> getChellengeDetail(String challengeId) async {
+    try {
+      final response = await ChallangeApi.getChellengeDetailApi(challengeId);
+
+      if (response.statusCode == 200) {
+        isLoading = true;
+        final jsonRes = jsonDecode(response.body)['data'];
+        challengeDetail = Challenge.fromJson(jsonRes);
+      }
+    } catch (_) {}
+
+    isLoading = false;
+    notifyListeners();
+  }
 
   //update challenge status
   Future<void> updateChallengeStatus(String challengeId) async {
+    final data = {'score': scoreId};
     try {
-      final response = await ChallangeApi.updateChellengeStatusApi(challengeId);
+      final response =
+          await ChallangeApi.updateChellengeTodoToDoingApi(challengeId);
 
       if (response.statusCode == 200) {
+        print("score data ====>$data");
+
         final result =
             await Dialogs.successDialog(_currentContext, "ອັບເດດສຳເລັດ");
         if (result) {
@@ -159,7 +181,7 @@ class ChallengeViewModel extends ChangeNotifier {
         }
       }
     } catch (_) {
-    
+      print("error $_");
     }
     notifyListeners();
   }

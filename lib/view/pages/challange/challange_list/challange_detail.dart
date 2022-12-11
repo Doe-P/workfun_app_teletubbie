@@ -9,7 +9,10 @@ import '../../../widgets/help_widget.dart';
 import '../../../widgets/input_widget.dart';
 
 class ChallengeDetailPage extends StatefulWidget {
-  const ChallengeDetailPage({super.key});
+  const ChallengeDetailPage({super.key, this.challengeId, this.status});
+
+  final String? challengeId;
+  final String? status;
 
   @override
   State<ChallengeDetailPage> createState() => _ChallengeDetailPageState();
@@ -21,7 +24,7 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
   void initState() {
     challengeViewModel =
         Provider.of<ChallengeViewModel>(context, listen: false);
-    
+    challengeViewModel?.getChellengeDetail("1");
     super.initState();
   }
 
@@ -31,8 +34,28 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
       body: Consumer(builder:
           (BuildContext context, ChallengeViewModel _viewModel, Widget? child) {
         _viewModel.context = context;
-        return bodyWidget();
+        return selectWidget();
       }),
+    );
+  }
+
+  Widget selectWidget() {
+    if (challengeViewModel!.isLoading) {
+      return Container(
+        width: double.infinity,
+        height: 300,
+        alignment: Alignment.center,
+        child: pageOnLoading(),
+      );
+    } else if (!challengeViewModel!.isLoading &&
+        challengeViewModel!.challengeDetail != null) {
+      return bodyWidget();
+    }
+    return Container(
+      width: double.infinity,
+      height: 300,
+      alignment: Alignment.center,
+      child: pageOnLoading(),
     );
   }
 
@@ -42,11 +65,11 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
       height: double.infinity,
       color: whiteColor,
       child: SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: 10),
+          padding: EdgeInsets.only(bottom: 15),
           child: Column(
             children: [
               Container(
-                height: 130,
+                height: 150,
                 decoration: const BoxDecoration(
                     color: yellowColor,
                     borderRadius: BorderRadius.only(
@@ -69,7 +92,10 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                   children: [
                     labelText("ຫົວຂໍ້"),
                     TextField(
-                      decoration: inputTextField("ຫົວຂໍ້", null),
+                      enabled: false,
+                      decoration: inputTextField(
+                          challengeViewModel!.challengeDetail!.title.toString(),
+                          null),
                       controller: challengeViewModel?.title,
                       // onChanged: challengeViewModel?.checkNameIsEmpty,
                       style: robotoFont(
@@ -79,8 +105,12 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                     ),
                     labelText("ລາຍລະອຽດ"),
                     TextField(
+                      enabled: false,
                       maxLines: 5,
-                      decoration: inputTextField("ລາຍລະອຽດ", null),
+                      decoration: inputTextField(
+                          challengeViewModel!.challengeDetail!.description
+                              .toString(),
+                          null),
                       controller: challengeViewModel?.description,
                       // onChanged: challengeViewModel?.checkNameIsEmpty,
                       style: robotoFont(
@@ -88,38 +118,55 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                           fontWieght: FontWeight.w400,
                           fontSize: 18),
                     ),
-                    labelText("ລະດັບຄວາມຍາກ-ງ່າຍ"),
-                    Container(
-                      height: 50,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: challengeViewModel?.score.length,
-                          itemBuilder: (BuildContext context, index) {
-                            final item = challengeViewModel?.score[index];
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {});
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 5),
-                                child: Container(
-                                    width:
-                                        MediaQuery.of(context).size.width / 5.5,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: grayColor.withOpacity(.1)),
-                                    child: Center(
-                                      child: Text(
-                                        item.toString(),
-                                        style: styleOption(
-                                            fontSize: 20, color: yellowColor),
-                                      ),
-                                    )),
-                              ),
-                            );
-                          }),
+                    labelText("ປະເພດ"),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        challengeViewModel!.challengeDetail!.type.toString(),
+                        style: styleOption(fontSize: 25, color: yellowColor),
+                      ),
                     ),
+                    labelText("Point"),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        challengeViewModel!.challengeDetail!.point.toString(),
+                        style: styleOption(
+                            fontSize: 35,
+                            color: yellowColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    if (widget.status == "doing")
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            labelText("ລະດັບຄວາມຍາກ-ງ່າຍ"),
+                            DropdownButtonFormField(
+                                value: challengeViewModel!.scoreId,
+                                isExpanded: true,
+                                decoration: dropdownInputDecoration(
+                                    "ເລືອກລະດັບ (1-5)", null),
+                                items: challengeViewModel?.score.map((e) {
+                                  return DropdownMenuItem(
+                                    value: e,
+                                    child: Text(
+                                      e.toString(),
+                                      style: notosansFont(
+                                          fontWieght: FontWeight.w400),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    challengeViewModel?.scoreId = value;
+                                  });
+                                  // appViewModel?.checkPositionIsEmpty(value);
+                                }),
+                          ],
+                        ),
+                      ),
                     heightBox(20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -127,7 +174,8 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                         materialbutton(MediaQuery.of(context).size.width / 3,
                             () {
                           challengeViewModel!.updateChallengeStatus("1");
-                        }, "Update", btnColor: yellowColor),
+                        }, widget.status == "todo" ? "Doing" : "Done",
+                            btnColor: yellowColor),
                       ],
                     )
                   ],
