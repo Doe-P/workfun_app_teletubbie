@@ -14,6 +14,7 @@ class ProfileViewModel extends ChangeNotifier {
   ProfileModel? profileModel;
   bool isLoading = false;
 
+  //get user profile data
   Future<void> getProfile() async {
     profileModel = null;
     isLoading = true;
@@ -21,7 +22,6 @@ class ProfileViewModel extends ChangeNotifier {
       final response = await ProfileApi.getProfileApi();
       if (response.statusCode == 200) {
         final jsonRes = jsonDecode(response.body)['data'];
-        print("json Res======>$jsonRes");
         if (jsonRes != null) {
           profileModel = ProfileModel.fromJson(jsonRes);
         }

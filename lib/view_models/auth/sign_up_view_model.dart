@@ -118,15 +118,13 @@ class SignUpViewModel extends ChangeNotifier {
     } else if (userPassword.text != confirmPassword.text) {
       confirmPasswordIsError = "* ລະຫັດຜ່ານບໍ່ກົງກັນ";
     }
-    // else if (identical(confPass, userPassword.text)) {
-    //   confirmPasswordIsError = "* ລະຫັດຜ່ານບໍ່ກົງກັນ";
-    // }
     else {
       confirmPasswordIsError = null;
     }
     notifyListeners();
   }
 
+// validate before sign up
   void validateSignUp() async {
     await focusDisable(_currentContext);
     checkNameIsEmpty(userName.text);
@@ -150,6 +148,7 @@ class SignUpViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+// sign up
   void _doSignUp() async {
     final data = {
       'name': userName.text.toString(),
@@ -161,7 +160,7 @@ class SignUpViewModel extends ChangeNotifier {
       'password_confirmation': confirmPassword.text.toString()
     };
 
-    print("data=>$data");
+   
     final response = await AuthApi.signUp(data);
 
     if (response.statusCode == 200) {

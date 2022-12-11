@@ -89,6 +89,22 @@ Widget materialbutton(double minWid, Function()? function, String txt,
   );
 }
 
+Widget pageOnLoading({Color bgColor = yellowColor}) {
+  return Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CircularProgressIndicator(
+          strokeWidth: 4,
+          valueColor: AlwaysStoppedAnimation<Color>(bgColor),
+        ),
+        heightBox(20),
+        Text('ກຳລັງໂຫຼດຂໍ້ມູນ', style: notosansFont(fontWieght: FontWeight.w400))
+      ],
+    ),
+  );
+}
+
 
 Widget outlineButton(
   Function()? function,

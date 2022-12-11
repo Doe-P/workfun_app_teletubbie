@@ -4,6 +4,8 @@ import '../base_api.dart';
 import '../help_api.dart';
 
 class ProfileApi {
+  //TODO: get user profile data
+
   static Future<http.Response> getProfileApi() async {
     Uri url = Uri.parse('$endPoint/me');
 

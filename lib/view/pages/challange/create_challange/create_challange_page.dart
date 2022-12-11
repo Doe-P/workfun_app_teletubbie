@@ -141,12 +141,10 @@ class _CreateChallangePageState extends State<CreateChallangePage> {
                               onTap: () {
                                 setState(() {
                                   changePointBtnColor = true;
-                                  for (int i = 0;
-                                      i < challengeViewModel!.point.length;
-                                      i++)
+                                   for(int i=0;i<challengeViewModel!.point.length;i++)
                                     tileColors![i] = grayColor.withOpacity(.1);
 
-                                  tileColors![index] = yellowColor;
+          tileColors![index] = yellowColor;
                                 });
                               },
                               child: Padding(
