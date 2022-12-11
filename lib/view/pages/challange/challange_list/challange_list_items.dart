@@ -10,7 +10,7 @@ import 'package:workfun_app_teletubbie/view/widgets/help_widget.dart';
 import 'package:workfun_app_teletubbie/view_models/challenge/challenge_view_model.dart';
 
 class ChallageListItems extends StatefulWidget {
-  const ChallageListItems({Key? key,required this.status}) : super(key: key);
+  const ChallageListItems({Key? key, required this.status}) : super(key: key);
 
   final String status;
   @override
@@ -33,7 +33,7 @@ class _ChallageListItemsState extends State<ChallageListItems> {
     return Consumer(builder:
         (BuildContext context, ChallengeViewModel _viewModel, Widget? child) {
       _viewModel.context = context;
-      return selectWidget();
+      return bodyWidget();
     });
   }
 

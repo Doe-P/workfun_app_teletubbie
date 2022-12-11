@@ -46,6 +46,7 @@ class ChallengeViewModel extends ChangeNotifier {
       if (response.statusCode == 200) {
         isLoading = true;
         final jsonRes = jsonDecode(response.body)['data'];
+        print("jsonRes====>$jsonRes");
         print("data=>$description");
         for (var item in jsonRes) {
           challengeListModel?.add(ChallengeListModel.fromJson(item));
