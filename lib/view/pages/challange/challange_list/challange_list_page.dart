@@ -23,12 +23,10 @@ class _ChallangeListPageState extends State<ChallangeListPage> {
             height: 130,
             alignment: Alignment.center,
             decoration: const BoxDecoration(
-              color: yellowColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30)
-              )
-            ),
+                color: yellowColor,
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30))),
             child: Container(
               padding: const EdgeInsets.fromLTRB(6, 5, 6, 5),
               margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -59,9 +57,15 @@ class _ChallangeListPageState extends State<ChallangeListPage> {
             child: IntrinsicHeight(
               child: TabBarView(
                 children: [
-                 const ChallageListItems(),
-                  Container(),
-                  Container(),
+                  ChallageListItems(
+                    status: "todo",
+                  ),
+                  ChallageListItems(
+                    status: "doing",
+                  ),
+                  ChallageListItems(
+                    status: "done",
+                  ),
                 ],
               ),
             ),

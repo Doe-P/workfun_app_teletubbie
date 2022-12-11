@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:workfun_app_teletubbie/apis/challenge/challenge_api.dart';
 import 'package:workfun_app_teletubbie/models/challenge/challenge_list_model.dart';
 
+import '../../view/widgets/dialog_widget.dart';
+
 class ChallengeViewModel extends ChangeNotifier {
   late BuildContext _currentContext;
 
@@ -34,6 +36,7 @@ class ChallengeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+//get challege list
   Future<void> getChellengeList(String status) async {
     Map<String, String> queryParams;
     queryParams = {"status": status};
@@ -43,6 +46,7 @@ class ChallengeViewModel extends ChangeNotifier {
       if (response.statusCode == 200) {
         isLoading = true;
         final jsonRes = jsonDecode(response.body)['data'];
+        print("data=>$description");
         for (var item in jsonRes) {
           challengeListModel?.add(ChallengeListModel.fromJson(item));
         }
@@ -52,6 +56,25 @@ class ChallengeViewModel extends ChangeNotifier {
     }
 
     isLoading = false;
+    notifyListeners();
+  }
+
+//update challenge status
+  Future<void> updateChallengeStatus(String challengeId) async {
+    try {
+      final response = await ChallengeApi.updateChellengeStatusApi(challengeId);
+
+      if (response.statusCode == 200) {
+        final result =
+            await Dialogs.successDialog(_currentContext, "ອັບເດດສຳເລັດ");
+        if (result) {
+          Navigator.pop(_currentContext);
+        }
+      }
+    } catch (e) {
+      print("error======> $e");
+    }
+
     notifyListeners();
   }
 }

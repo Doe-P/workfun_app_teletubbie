@@ -21,4 +21,20 @@ class ChallengeApi {
 
     return Future.value(response);
   }
+
+  static Future<http.Response> updateChellengeStatusApi(
+      String challengeId) async {
+    final String url = "$endPoint/challenge/$challengeId";
+    final header = await headers();
+    http.Response response;
+    try {
+      response = await http
+          .put(Uri.parse(url), headers: header)
+          .timeout(const Duration(seconds: 120));
+    } catch (_) {
+      response = BaseApi.noResponse();
+    }
+
+    return Future.value(response);
+  }
 }

@@ -23,13 +23,18 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
   void initState() {
     challengeViewModel =
         Provider.of<ChallengeViewModel>(context, listen: false);
+    
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: bodyWidget(),
+      body: Consumer(builder:
+          (BuildContext context, ChallengeViewModel _viewModel, Widget? child) {
+        _viewModel.context = context;
+        return bodyWidget();
+      }),
     );
   }
 
@@ -122,13 +127,9 @@ class _ChallengeDetailPageState extends State<ChallengeDetailPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         materialbutton(MediaQuery.of(context).size.width / 3,
-                            null, "Doing",
-                            btnColor: yellowColor.withOpacity(.3)),
-                        materialbutton(
-                          MediaQuery.of(context).size.width / 3,
-                          null,
-                          "Done",
-                        ),
+                            () {
+                          challengeViewModel!.updateChallengeStatus("1");
+                        }, "Update", btnColor: yellowColor),
                       ],
                     )
                   ],
