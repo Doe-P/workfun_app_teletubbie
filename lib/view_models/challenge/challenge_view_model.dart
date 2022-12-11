@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:workfun_app_teletubbie/apis/challenge/challenge_api.dart';
 import 'package:workfun_app_teletubbie/apis/group/group_api.dart';
+import 'package:workfun_app_teletubbie/models/challenge/challenge_list_model.dart';
 import 'package:workfun_app_teletubbie/models/group/model_group.dart';
 import 'package:workfun_app_teletubbie/services/share_preferences.dart';
 import 'package:workfun_app_teletubbie/view/widgets/dialog_widget.dart';
@@ -23,6 +24,8 @@ class ChallengeViewModel extends ChangeNotifier {
   dynamic challengeTypeId;
   List<int> point = [100, 75, 50, 25];
   List<int> score = [1, 2, 3, 4, 5];
+
+  List<ChallengeListModel>? challengeListModel;
 
   int pointSelected = 0;
 
