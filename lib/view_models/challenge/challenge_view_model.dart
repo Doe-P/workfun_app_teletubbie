@@ -25,7 +25,7 @@ class ChallengeViewModel extends ChangeNotifier {
   List<int> point = [100, 75, 50, 25];
   List<int> score = [1, 2, 3, 4, 5];
 
-  List<ChallengeListModel>? challengeListModel;
+  List<ChallengeListModel> challengeListModel = [];
 
   int pointSelected = 0;
 
@@ -129,19 +129,18 @@ class ChallengeViewModel extends ChangeNotifier {
     Map<String, String> queryParams;
     queryParams = {"status": status};
     try {
+      challengeListModel.clear();
+      isLoading = true;
       final response = await ChallangeApi.getChellengeApi(queryParams);
-
       if (response.statusCode == 200) {
-        isLoading = true;
         final jsonRes = jsonDecode(response.body)['data'];
-        for (var item in jsonRes) {
-          challengeListModel?.add(ChallengeListModel.fromJson(item));
+        for (Map<String, dynamic> item in jsonRes) {
+          challengeListModel.add(ChallengeListModel.fromJson(item));
         }
       }
     } catch (_) {
    
     }
-
     isLoading = false;
     notifyListeners();
   }
@@ -162,7 +161,6 @@ class ChallengeViewModel extends ChangeNotifier {
     } catch (_) {
     
     }
-
     notifyListeners();
   }
 }
