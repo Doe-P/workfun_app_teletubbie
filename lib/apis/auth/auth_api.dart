@@ -20,7 +20,7 @@ class AuthApi {
   static Future<http.Response> signUp(final data) async {
     Uri url = Uri.parse('$endPoint/register');
     
-    final header = await headers(isJson: true);
+    final header = await headers();
     
     http.Response _response;
     try {

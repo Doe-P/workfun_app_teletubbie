@@ -21,15 +21,13 @@ class ProfileViewModel extends ChangeNotifier {
       final response = await ProfileApi.getProfileApi();
       if (response.statusCode == 200) {
         final jsonRes = jsonDecode(response.body)['data'];
-        print("json Res======>$jsonRes");
         if (jsonRes != null) {
           profileModel = ProfileModel.fromJson(jsonRes);
         }
       }
       isLoading = false;
       notifyListeners();
-    } catch (e) {
-      print("error===>$e");
+    } catch (_) {
     }
   }
 }
