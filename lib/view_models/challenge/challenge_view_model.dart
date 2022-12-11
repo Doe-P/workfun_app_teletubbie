@@ -123,4 +123,26 @@ class ChallengeViewModel extends ChangeNotifier {
     memberList.clear();
     pointSelected = 0;
   }
+
+  //get challege list
+  Future<void> getChellengeList(String status) async {
+    Map<String, String> queryParams;
+    queryParams = {"status": status};
+    try {
+      final response = await ChallangeApi.getChellengeApi(queryParams);
+
+      if (response.statusCode == 200) {
+        isLoading = true;
+        final jsonRes = jsonDecode(response.body)['data'];
+        for (var item in jsonRes) {
+          challengeListModel?.add(ChallengeListModel.fromJson(item));
+        }
+      }
+    } catch (_) {
+   
+    }
+
+    isLoading = false;
+    notifyListeners();
+  }
 }
