@@ -1,9 +1,8 @@
-import 'dart:convert';
+// ignore_for_file: use_build_context_synchronously
 
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:workfun_app_teletubbie/apis/auth/auth_api.dart';
-import 'package:workfun_app_teletubbie/view/pages/auth/sign_up_page.dart';
 import 'package:workfun_app_teletubbie/view/pages/home_page.dart';
 import 'package:workfun_app_teletubbie/view/widgets/dialog_widget.dart';
 
@@ -69,12 +68,19 @@ class SignInViewModel extends ChangeNotifier {
     final response = await AuthApi.signIn(data);
     {
       if (response.statusCode == 200) {
-        String accessToken =
-            jsonDecode(response.body)['data']['credentials']['access_token'];
+        final jsonRes = jsonDecode(response.body)['data'];
+        String accessToken = jsonRes['credentials']['access_token'];
+        if(jsonRes["groupInfo"] !=null){
+        String userType = jsonRes["groupInfo"]["type"];
+        bool userHasGroup = jsonRes["groupInfo"] == null ? false : true;
+
+        await SharePreferences.setUserPermisstion(userType);
+        await SharePreferences.setUserHasGroup(userHasGroup);
+        }
 
         if (accessToken.isNotEmpty) {
           Navigator.of(_currentContext)
-              .push(MaterialPageRoute(builder: (context) => HomePage()));
+              .push(MaterialPageRoute(builder: (context) => const HomePage()));
 
           await SharePreferences.setAccessToken(accessToken);
           isRememberMe
