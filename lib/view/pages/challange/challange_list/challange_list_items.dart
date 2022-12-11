@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:workfun_app_teletubbie/constants/app_info.dart';
 import 'package:workfun_app_teletubbie/view/colors/colors.dart';
+import 'package:workfun_app_teletubbie/view/pages/challange/challange_list/challange_detail.dart';
 
 import 'package:workfun_app_teletubbie/view/style/text_style.dart';
 import 'package:workfun_app_teletubbie/view/widgets/help_widget.dart';
@@ -61,6 +62,7 @@ class _ChallageListItemsState extends State<ChallageListItems> {
         itemBuilder: (BuildContext context, index) {
           final item = challengeViewModel?.challengeListModel[index];
           return InkWell(
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChallengeDetailPage())),
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.fromLTRB(15, 27, 15, 27),
