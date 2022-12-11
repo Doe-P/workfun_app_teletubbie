@@ -145,4 +145,24 @@ class ChallengeViewModel extends ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
+
+
+  //update challenge status
+  Future<void> updateChallengeStatus(String challengeId) async {
+    try {
+      final response = await ChallangeApi.updateChellengeStatusApi(challengeId);
+
+      if (response.statusCode == 200) {
+        final result =
+            await Dialogs.successDialog(_currentContext, "ອັບເດດສຳເລັດ");
+        if (result) {
+          Navigator.pop(_currentContext);
+        }
+      }
+    } catch (_) {
+    
+    }
+
+    notifyListeners();
+  }
 }
